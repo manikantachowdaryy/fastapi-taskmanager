@@ -1,30 +1,30 @@
-# Task Manager API
+# FastAPI Task Manager
 
-A simple REST API built using **FastAPI**, **SQLite**, **SQLAlchemy ORM**, and **Pydantic** for managing tasks.
+This is a simple Task Manager API developed using Python and FastAPI as part of a backend assignment.
 
-## Features
+The application allows users to:
 
 - Add a new task
 - View all tasks
 - Update an existing task
 - Delete a task
-- Automatic API documentation using Swagger UI
 
-## Tech Stack
+The project uses SQLite as the database, SQLAlchemy as the ORM, and Pydantic for request validation.
+
+## Technologies Used
 
 - Python
 - FastAPI
 - SQLite
-- SQLAlchemy ORM
+- SQLAlchemy
 - Pydantic
 
 ## Project Structure
 
 ```
-fastapi-taskmanager/
+fastapi-taskmanager
 │
-├── app/
-│   ├── __init__.py
+├── app
 │   ├── main.py
 │   ├── database.py
 │   ├── models.py
@@ -36,27 +36,27 @@ fastapi-taskmanager/
 └── .gitignore
 ```
 
-## Installation
+## How to Run
 
-### 1. Clone the repository
+Clone the repository:
 
 ```bash
 git clone https://github.com/manikantachowdaryy/fastapi-taskmanager.git
 ```
 
-### 2. Move into the project folder
+Move into the project folder:
 
 ```bash
 cd fastapi-taskmanager
 ```
 
-### 3. Create a virtual environment
+Create a virtual environment:
 
 ```bash
 python3 -m venv venv
 ```
 
-### 4. Activate the virtual environment
+Activate it:
 
 **macOS/Linux**
 
@@ -64,60 +64,33 @@ python3 -m venv venv
 source venv/bin/activate
 ```
 
-**Windows**
-
-```bash
-venv\Scripts\activate
-```
-
-### 5. Install the required packages
+Install the required packages:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 6. Run the FastAPI server
+Run the project:
 
 ```bash
 uvicorn app.main:app --reload
 ```
 
-## API Documentation
-
-After starting the server, open:
-
-Swagger UI
+Open the browser and go to:
 
 ```
 http://127.0.0.1:8000/docs
 ```
 
-ReDoc
-
-```
-http://127.0.0.1:8000/redoc
-```
+to test the APIs using Swagger UI.
 
 ## API Endpoints
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | / | Home endpoint |
-| POST | /tasks | Create a task |
-| GET | /tasks | Get all tasks |
-| PUT | /tasks/{task_id} | Update a task |
-| DELETE | /tasks/{task_id} | Delete a task |
-
-## Sample Request
-
-```json
-{
-    "title": "Complete Assignment",
-    "description": "Submit FastAPI Task Manager",
-    "status": "Pending"
-}
-```
+- POST /tasks
+- GET /tasks
+- PUT /tasks/{task_id}
+- DELETE /tasks/{task_id}
 
 ## Author
 
-**Manikanta Chowdary**
+Manikanta Chowdary
