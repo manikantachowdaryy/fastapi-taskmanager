@@ -8,9 +8,11 @@ def create_task(db: Session, task: schemas.TaskCreate):
         description=task.description,
         status=task.status
     )
+
     db.add(db_task)
     db.commit()
     db.refresh(db_task)
+
     return db_task
 
 
