@@ -1,96 +1,271 @@
-# FastAPI Task Manager
+# Project Management API with Role-Based Access Control (RBAC)
 
-This is a simple Task Manager API developed using Python and FastAPI as part of a backend assignment.
+## Overview
 
-The application allows users to:
+This project is a backend REST API developed using FastAPI that provides secure project and task management with JWT Authentication and Role-Based Access Control (RBAC).
 
-- Add a new task
-- View all tasks
-- Update an existing task
-- Delete a task
+The application allows users to create projects, manage project members, assign tasks, and perform role-based operations based on their permissions.
 
-The project uses SQLite as the database, SQLAlchemy as the ORM, and Pydantic for request validation.
+---
+
+## Features
+
+### Authentication
+
+- User Signup
+- User Login
+- JWT Authentication
+- Current User API (/auth/me)
+
+### User Roles
+
+- Admin
+- Manager
+- Member
+
+### Project Management
+
+- Create Project
+- View All Projects
+- View Project by ID
+- Update Project
+- Delete Project
+
+### Project Members
+
+- Add Users to Projects
+- View Project Members
+
+### Task Management
+
+- Create Task
+- View All Tasks
+- View Task by ID
+- Update Task
+- Delete Task
+
+### Role-Based Access Control
+
+#### Admin
+
+- Create Projects
+- Update Projects
+- Delete Projects
+- Manage Users
+- View All Projects
+- View All Tasks
+
+#### Manager
+
+- Create Projects
+- Assign Tasks
+- Reassign Tasks
+- Update Projects
+- Add Members to Projects
+
+#### Member
+
+- View Assigned Projects
+- View Assigned Tasks
+- Update Task Status
+
+---
 
 ## Technologies Used
 
-- Python
 - FastAPI
+- Python 3
+- SQLAlchemy ORM
 - SQLite
-- SQLAlchemy
 - Pydantic
+- JWT Authentication
+- Uvicorn
+
+---
 
 ## Project Structure
 
 ```
-fastapi-taskmanager
-│
-├── app
-│   ├── main.py
+fastapi-taskmanager/
+
+│── app/
+│   ├── auth.py
+│   ├── crud.py
 │   ├── database.py
+│   ├── main.py
 │   ├── models.py
-│   ├── schemas.py
-│   └── crud.py
+│   └── schemas.py
 │
+├── screenshots/
+├── task_manager.db
 ├── requirements.txt
-├── README.md
-└── .gitignore
+└── README.md
 ```
 
-## How to Run
+---
 
-Clone the repository:
+## Database Tables
+
+### Users
+
+- id
+- full_name
+- email
+- hashed_password
+- role
+- created_at
+
+### Projects
+
+- id
+- name
+- description
+- created_by
+- created_at
+
+### Project Members
+
+- id
+- project_id
+- user_id
+
+### Tasks
+
+- id
+- title
+- description
+- status
+- priority
+- due_date
+- assigned_to
+- project_id
+
+---
+
+## API Endpoints
+
+### Authentication
+
+| Method | Endpoint |
+|---------|----------|
+| POST | /auth/signup |
+| POST | /auth/login |
+| GET | /auth/me |
+
+### Projects
+
+| Method | Endpoint |
+|---------|----------|
+| POST | /projects |
+| GET | /projects |
+| GET | /projects/{id} |
+| PUT | /projects/{id} |
+| DELETE | /projects/{id} |
+
+### Project Members
+
+| Method | Endpoint |
+|---------|----------|
+| POST | /projects/{id}/members |
+| GET | /projects/{id}/members |
+
+### Tasks
+
+| Method | Endpoint |
+|---------|----------|
+| POST | /tasks |
+| GET | /tasks |
+| GET | /tasks/{id} |
+| PUT | /tasks/{id} |
+| DELETE | /tasks/{id} |
+
+---
+
+## Installation
+
+Clone the repository
 
 ```bash
 git clone https://github.com/manikantachowdaryy/fastapi-taskmanager.git
 ```
 
-Move into the project folder:
+Go to the project directory
 
 ```bash
 cd fastapi-taskmanager
 ```
 
-Create a virtual environment:
+Create a virtual environment
 
 ```bash
 python3 -m venv venv
 ```
 
-Activate it:
+Activate the virtual environment
 
-**macOS/Linux**
+### macOS/Linux
 
 ```bash
 source venv/bin/activate
 ```
 
-Install the required packages:
+### Windows
+
+```bash
+venv\Scripts\activate
+```
+
+Install dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-Run the project:
+Run the application
 
 ```bash
-uvicorn app.main:app --reload
+python3 -m uvicorn app.main:app --reload
 ```
 
-Open the browser and go to:
+Open Swagger Documentation
 
 ```
 http://127.0.0.1:8000/docs
 ```
 
-to test the APIs using Swagger UI.
+---
 
-## API Endpoints
+## Authentication
 
-- POST /tasks
-- GET /tasks
-- PUT /tasks/{task_id}
-- DELETE /tasks/{task_id}
+The application uses JWT Authentication.
+
+1. Register a new user.
+2. Login using email and password.
+3. Copy the access token.
+4. Click **Authorize** in Swagger.
+5. Authenticate and access protected APIs.
+
+---
+
+## Testing
+
+The APIs were tested using:
+
+- Swagger UI
+- Postman
+
+---
+
+## Screenshots
+
+Swagger documentation screenshots are available in the **screenshots** folder.
+
+---
 
 ## Author
 
-Manikanta Chowdary
+**Manikanta Kancheti**
+
+Backend Developer Assignment
+
+FastAPI | SQLAlchemy | JWT | RBAC
