@@ -4,9 +4,6 @@ from typing import Literal
 from pydantic import BaseModel, EmailStr
 
 
-# -----------------------------
-# Authentication Schemas
-# -----------------------------
 
 class UserCreate(BaseModel):
     full_name: str
@@ -40,9 +37,7 @@ class UserResponse(BaseModel):
         from_attributes = True
 
 
-# -----------------------------
-# Project Schemas
-# -----------------------------
+
 
 class ProjectCreate(BaseModel):
     name: str
@@ -58,9 +53,7 @@ class ProjectResponse(ProjectCreate):
         from_attributes = True
 
 
-# -----------------------------
-# Project Member Schemas
-# -----------------------------
+
 
 class ProjectMemberCreate(BaseModel):
     user_id: int
@@ -75,9 +68,6 @@ class ProjectMemberResponse(BaseModel):
         from_attributes = True
 
 
-# -----------------------------
-# Task Schemas
-# -----------------------------
 
 class TaskCreate(BaseModel):
     title: str
@@ -91,6 +81,48 @@ class TaskCreate(BaseModel):
 
 class TaskResponse(TaskCreate):
     id: int
+
+    class Config:
+        from_attributes = True
+
+
+class NotificationResponse(BaseModel):
+    id: int
+    user_id: int
+    title: str
+    message: str
+    is_read: int
+    created_at: datetime
+
+    class Config:
+        from_attributes = True
+
+
+
+
+class ActivityLogResponse(BaseModel):
+    id: int
+    user_id: int
+    action: str
+    entity_type: str
+    entity_id: int
+    description: str
+    created_at: datetime
+
+    class Config:
+        from_attributes = True
+
+
+
+class AuditLogResponse(BaseModel):
+    id: int
+    entity_type: str
+    entity_id: int
+    field_name: str
+    old_value: str | None = None
+    new_value: str | None = None
+    changed_by: int
+    changed_at: datetime
 
     class Config:
         from_attributes = True

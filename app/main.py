@@ -37,10 +37,6 @@ def home():
     }
 
 
-# --------------------------
-# PROJECTS
-# --------------------------
-
 @app.post(
     "/projects",
     response_model=schemas.ProjectResponse,
@@ -136,9 +132,6 @@ def delete_project(
     }
 
 
-# --------------------------
-# PROJECT MEMBERS
-# --------------------------
 
 @app.post(
     "/projects/{project_id}/members",
@@ -179,10 +172,6 @@ def get_members(
         project_id
     )
 
-
-# --------------------------
-# TASKS
-# --------------------------
 
 @app.post(
     "/tasks",
@@ -279,3 +268,148 @@ def delete_task(
     return {
         "message": "Task deleted successfully"
     }
+
+@app.get(
+    "/notifications",
+    response_model=list[schemas.NotificationResponse]
+)
+def get_notifications(
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user)
+):
+    return crud.get_notifications(db, current_user.id)
+
+
+@app.get(
+    "/notifications/unread",
+    response_model=list[schemas.NotificationResponse]
+)
+def get_unread_notifications(
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user)
+):
+    return crud.get_unread_notifications(db, current_user.id)
+
+
+@app.put(
+    "/notifications/{notification_id}/read",
+    response_model=schemas.NotificationResponse
+)
+def mark_notification_read(
+    notification_id: int,
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user)
+):
+    notification = crud.mark_notification_read(
+        db,
+        notification_id,
+        current_user.id
+    )
+
+    if notification is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Notification not found"
+        )
+
+    return notification
+
+
+@app.put("/notifications/read-all")
+def mark_all_notifications(
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user)
+):
+    crud.mark_all_notifications_read(
+        db,
+        current_user.id
+    )
+
+    return {
+        "message": "All notifications marked as read"
+    }
+
+
+@app.delete("/notifications/{notification_id}")
+def delete_notification(
+    notification_id: int,
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user)
+):
+    notification = crud.delete_notification(
+        db,
+        notification_id,
+        current_user.id
+    )
+
+    if notification is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Notification not found"
+        )
+
+    return {
+        "message": "Notification deleted successfully"
+    }
+
+@app.get(
+    "/activities",
+    response_model=list[schemas.ActivityLogResponse]
+)
+def get_all_activities(
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user)
+):
+    return crud.get_all_activities(db)
+
+
+@app.get(
+    "/activities/user/{user_id}",
+    response_model=list[schemas.ActivityLogResponse]
+)
+def get_user_activities(
+    user_id: int,
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user)
+):
+    return crud.get_user_activities(db, user_id)
+
+
+@app.get(
+    "/activities/project/{project_id}",
+    response_model=list[schemas.ActivityLogResponse]
+)
+def get_project_activities(
+    project_id: int,
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user)
+):
+    return crud.get_project_activities(db, project_id)
+
+
+@app.get(
+    "/audit-logs",
+    response_model=list[schemas.AuditLogResponse]
+)
+def get_audit_logs(
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user)
+):
+    return crud.get_all_audit_logs(db)
+
+
+@app.get(
+    "/audit-logs/{entity_type}/{entity_id}",
+    response_model=list[schemas.AuditLogResponse]
+)
+def get_entity_audit_logs(
+    entity_type: str,
+    entity_id: int,
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user)
+):
+    return crud.get_entity_audit_logs(
+        db,
+        entity_type,
+        entity_id
+    )

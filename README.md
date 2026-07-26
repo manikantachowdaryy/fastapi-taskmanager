@@ -1,271 +1,94 @@
-# Project Management API with Role-Based Access Control (RBAC)
+# Notification & Activity Tracking System
 
 ## Overview
-
-This project is a backend REST API developed using FastAPI that provides secure project and task management with JWT Authentication and Role-Based Access Control (RBAC).
-
-The application allows users to create projects, manage project members, assign tasks, and perform role-based operations based on their permissions.
-
----
+This project extends the Project Management API by implementing Notifications, Activity Logs, and Audit Logs using FastAPI, SQLAlchemy ORM, JWT Authentication, and SQLite.
 
 ## Features
 
 ### Authentication
-
 - User Signup
 - User Login
 - JWT Authentication
-- Current User API (/auth/me)
+- Get Current User
 
-### User Roles
+### Notifications
+- View Notifications
+- View Unread Notifications
+- Mark Notification as Read
+- Mark All Notifications as Read
+- Delete Notification
 
-- Admin
-- Manager
-- Member
+### Activity Logs
+- Track User Activities
+- View All Activities
+- View User Activities
+- View Project Activities
 
-### Project Management
-
-- Create Project
-- View All Projects
-- View Project by ID
-- Update Project
-- Delete Project
-
-### Project Members
-
-- Add Users to Projects
-- View Project Members
-
-### Task Management
-
-- Create Task
-- View All Tasks
-- View Task by ID
-- Update Task
-- Delete Task
-
-### Role-Based Access Control
-
-#### Admin
-
-- Create Projects
-- Update Projects
-- Delete Projects
-- Manage Users
-- View All Projects
-- View All Tasks
-
-#### Manager
-
-- Create Projects
-- Assign Tasks
-- Reassign Tasks
-- Update Projects
-- Add Members to Projects
-
-#### Member
-
-- View Assigned Projects
-- View Assigned Tasks
-- Update Task Status
-
----
+### Audit Logs
+- Track Changes to Projects and Tasks
+- Store Old and New Values
+- View Audit Logs
+- View Audit Logs by Entity
 
 ## Technologies Used
 
 - FastAPI
-- Python 3
 - SQLAlchemy ORM
 - SQLite
-- Pydantic
 - JWT Authentication
+- Pydantic
 - Uvicorn
-
----
-
-## Project Structure
-
-```
-fastapi-taskmanager/
-
-│── app/
-│   ├── auth.py
-│   ├── crud.py
-│   ├── database.py
-│   ├── main.py
-│   ├── models.py
-│   └── schemas.py
-│
-├── screenshots/
-├── task_manager.db
-├── requirements.txt
-└── README.md
-```
-
----
-
-## Database Tables
-
-### Users
-
-- id
-- full_name
-- email
-- hashed_password
-- role
-- created_at
-
-### Projects
-
-- id
-- name
-- description
-- created_by
-- created_at
-
-### Project Members
-
-- id
-- project_id
-- user_id
-
-### Tasks
-
-- id
-- title
-- description
-- status
-- priority
-- due_date
-- assigned_to
-- project_id
-
----
 
 ## API Endpoints
 
 ### Authentication
+- POST /auth/signup
+- POST /auth/login
+- GET /auth/me
 
-| Method | Endpoint |
-|---------|----------|
-| POST | /auth/signup |
-| POST | /auth/login |
-| GET | /auth/me |
+### Notifications
+- GET /notifications
+- GET /notifications/unread
+- PUT /notifications/{id}/read
+- PUT /notifications/read-all
+- DELETE /notifications/{id}
 
-### Projects
+### Activities
+- GET /activities
+- GET /activities/user/{id}
+- GET /activities/project/{id}
 
-| Method | Endpoint |
-|---------|----------|
-| POST | /projects |
-| GET | /projects |
-| GET | /projects/{id} |
-| PUT | /projects/{id} |
-| DELETE | /projects/{id} |
+### Audit Logs
+- GET /audit-logs
+- GET /audit-logs/{entity_type}/{entity_id}
 
-### Project Members
-
-| Method | Endpoint |
-|---------|----------|
-| POST | /projects/{id}/members |
-| GET | /projects/{id}/members |
-
-### Tasks
-
-| Method | Endpoint |
-|---------|----------|
-| POST | /tasks |
-| GET | /tasks |
-| GET | /tasks/{id} |
-| PUT | /tasks/{id} |
-| DELETE | /tasks/{id} |
-
----
-
-## Installation
-
-Clone the repository
+## How to Run
 
 ```bash
-git clone https://github.com/manikantachowdaryy/fastapi-taskmanager.git
-```
+git clone <repository-url>
 
-Go to the project directory
-
-```bash
 cd fastapi-taskmanager
-```
 
-Create a virtual environment
+python -m venv venv
 
-```bash
-python3 -m venv venv
-```
-
-Activate the virtual environment
-
-### macOS/Linux
-
-```bash
 source venv/bin/activate
-```
 
-### Windows
-
-```bash
-venv\Scripts\activate
-```
-
-Install dependencies
-
-```bash
 pip install -r requirements.txt
-```
 
-Run the application
-
-```bash
 python3 -m uvicorn app.main:app --reload
 ```
 
-Open Swagger Documentation
+Open:
 
 ```
 http://127.0.0.1:8000/docs
 ```
 
----
+## Future Improvements
 
-## Authentication
-
-The application uses JWT Authentication.
-
-1. Register a new user.
-2. Login using email and password.
-3. Copy the access token.
-4. Click **Authorize** in Swagger.
-5. Authenticate and access protected APIs.
-
----
-
-## Testing
-
-The APIs were tested using:
-
-- Swagger UI
-- Postman
-
----
-
-## Screenshots
-
-Swagger documentation screenshots are available in the **screenshots** folder.
-
----
-
-## Author
-
-**Manikanta Kancheti**
-
-Backend Developer Assignment
-
-FastAPI | SQLAlchemy | JWT | RBAC
+- Email Notifications
+- WebSocket Real-Time Notifications
+- Export Logs to CSV/PDF
+- Notification Preferences
+- Docker Support
+- Unit Testing

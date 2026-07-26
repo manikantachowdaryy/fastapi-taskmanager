@@ -84,15 +84,10 @@ class Task(Base):
     __tablename__ = "tasks"
 
     id = Column(Integer, primary_key=True, index=True)
-
     title = Column(String, nullable=False)
-
     description = Column(String)
-
     status = Column(String, default="Pending")
-
     priority = Column(String, default="Medium")
-
     due_date = Column(DateTime)
 
     assigned_to = Column(
@@ -114,3 +109,38 @@ class Task(Base):
         "Project",
         back_populates="tasks"
     )
+
+class Notification(Base):
+    __tablename__ = "notifications"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    title = Column(String, nullable=False)
+    message = Column(String, nullable=False)
+    is_read = Column(Integer, default=0)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+
+class ActivityLog(Base):
+    __tablename__ = "activity_logs"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    action = Column(String, nullable=False)
+    entity_type = Column(String)
+    entity_id = Column(Integer)
+    description = Column(String)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+
+class AuditLog(Base):
+    __tablename__ = "audit_logs"
+
+    id = Column(Integer, primary_key=True, index=True)
+    entity_type = Column(String)
+    entity_id = Column(Integer)
+    field_name = Column(String)
+    old_value = Column(String)
+    new_value = Column(String)
+    changed_by = Column(Integer, ForeignKey("users.id"))
+    changed_at = Column(DateTime, default=datetime.utcnow)
